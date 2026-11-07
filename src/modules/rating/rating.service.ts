@@ -9,7 +9,18 @@ export class RatingService {
 
   async getAll() {
     return this.prismaService.rating.findMany({
-      include: { book: true, user: true },
+      include: {
+        book: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            fullName: true,
+            avatarUrl: true,
+            role: true,
+          },
+        },
+      },
       orderBy: { createdAt: 'desc' },
     });
   }
@@ -17,14 +28,36 @@ export class RatingService {
   async getById(id: number) {
     return this.prismaService.rating.findUnique({
       where: { id },
-      include: { book: true, user: true },
+      include: {
+        book: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            fullName: true,
+            avatarUrl: true,
+            role: true,
+          },
+        },
+      },
     });
   }
 
   async getByBookId(bookId: number) {
     return this.prismaService.rating.findMany({
       where: { bookId },
-      include: { user: true, book: true },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            fullName: true,
+            avatarUrl: true,
+            role: true,
+          },
+        },
+        book: true,
+      },
       orderBy: { createdAt: 'desc' },
     });
   }
@@ -32,7 +65,18 @@ export class RatingService {
   async getByUserId(userId: number) {
     return this.prismaService.rating.findMany({
       where: { userId },
-      include: { user: true, book: true },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            fullName: true,
+            avatarUrl: true,
+            role: true,
+          },
+        },
+        book: true,
+      },
       orderBy: { createdAt: 'desc' },
     });
   }
@@ -65,14 +109,36 @@ export class RatingService {
         score: createRatingDto.score,
         comment: createRatingDto.comment || null,
       },
-      include: { user: true, book: true },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            fullName: true,
+            avatarUrl: true,
+            role: true,
+          },
+        },
+        book: true,
+      },
     });
   }
 
   async delete(id: number) {
     return this.prismaService.rating.delete({
       where: { id },
-      include: { book: true, user: true },
+      include: {
+        book: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            fullName: true,
+            avatarUrl: true,
+            role: true,
+          },
+        },
+      },
     });
   }
 
@@ -101,7 +167,18 @@ export class RatingService {
     return this.prismaService.rating.update({
       where: { id },
       data: updateData,
-      include: { user: true, book: true },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            fullName: true,
+            avatarUrl: true,
+            role: true,
+          },
+        },
+        book: true,
+      },
     });
   }
 }

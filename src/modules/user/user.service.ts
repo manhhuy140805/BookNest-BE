@@ -14,7 +14,22 @@ export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
-    const users = await this.prismaService.user.findMany();
+    const users = await this.prismaService.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        avatarUrl: true,
+        avatarCloudinaryId: true,
+        bio: true,
+        dateOfBirth: true,
+        role: true,
+        isVerified: true,
+        isActive: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
     return users;
   }
 
@@ -247,6 +262,20 @@ export class UserService {
     const [users, total] = await Promise.all([
       this.prismaService.user.findMany({
         where: whereCondition,
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          avatarUrl: true,
+          avatarCloudinaryId: true,
+          bio: true,
+          dateOfBirth: true,
+          role: true,
+          isVerified: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
+        },
         skip,
         take: limit,
       }),
